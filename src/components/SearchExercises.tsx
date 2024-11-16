@@ -1,13 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Stack, Typography, Box, TextField, Button } from "@mui/material";
 
 import { fetchData, fetchOptions } from "../utilities/fetchData";
 import HorizontalScrollBar from "./HorizontalScrollBar";
 
-export default function SearchExercises() {
+type SearchExercisesProps = {
+  setExercises: Dispatch<SetStateAction<string[]>>;
+  bodyPart: string;
+  setBodyPart: Dispatch<SetStateAction<string>>;
+};
+
+export default function SearchExercises({
+  setExercises,
+  bodyPart,
+  setBodyPart,
+}: SearchExercisesProps) {
   const [searchValue, setSearchValue] = useState<string>("");
   const [bodyParts, setBodyParts] = useState<string[]>([]);
-  const [exercises, setExercises] = useState([]);
 
   useEffect(() => {
     const fetchBodyParts = async () => {
@@ -37,6 +46,7 @@ export default function SearchExercises() {
 
     setSearchValue("");
     setExercises(searchedExercises);
+    console.log(searchedExercises);
   };
 
   return (
@@ -80,7 +90,11 @@ export default function SearchExercises() {
         </Button>
       </Box>
       <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
-        <HorizontalScrollBar bodyPartsList={bodyParts} />
+        <HorizontalScrollBar
+          bodyPartsList={bodyParts}
+          bodyPart={bodyPart}
+          setBodyPart={setBodyPart}
+        />
       </Box>
     </Stack>
   );
