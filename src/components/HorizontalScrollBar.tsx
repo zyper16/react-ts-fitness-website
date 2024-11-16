@@ -1,5 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
 import { Box } from "@mui/material";
+import { ScrollMenu } from "react-horizontal-scrolling-menu";
+import "react-horizontal-scrolling-menu/styles.css";
+
+import BodyPartCard from "./BodyPartCard";
 
 type HorizontalScrollBarProps = {
   bodyPartsList: string[];
@@ -13,10 +17,18 @@ export default function HorizontalScrollBar({
   setBodyPart,
 }: HorizontalScrollBarProps) {
   return (
-    <div>
-      {bodyPartsList.map(bodyPart => (
-        <Box key={bodyPart}>{bodyPart}</Box>
-      ))}
+    <div style={{ width: "100%", overflowX: "auto" }}>
+      <ScrollMenu>
+        {bodyPartsList.map(item => (
+          <Box key={item} title={item || item} m="0 40px">
+            <BodyPartCard
+              item={item}
+              bodyPart={bodyPart}
+              setBodyPart={setBodyPart}
+            />
+          </Box>
+        ))}
+      </ScrollMenu>
     </div>
   );
 }
