@@ -6,17 +6,12 @@ export const fetchOptions = {
   },
 };
 
-type fetchDataProps = {
-  url: string;
-  options?: RequestInit;
-};
-
-export default async function fetchData({ url, options }: fetchDataProps) {
+export async function fetchData(url: string, options?: RequestInit) {
   try {
     const response = await fetch(url, options);
     if (!response.ok)
       throw new Error(`Api response has failed! Code: ${response.status}`);
-    const data = await response.json();
+    const data = await response.text();
     return data;
   } catch (error) {
     console.log(error);
