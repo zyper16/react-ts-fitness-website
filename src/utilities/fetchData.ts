@@ -11,7 +11,7 @@ export async function fetchData(url: string, options?: RequestInit) {
     const response = await fetch(url, options);
     if (!response.ok)
       throw new Error(`Api response has failed! Code: ${response.status}`);
-    const data = await response.text();
+    const data = await response.json();
     return data;
   } catch (error) {
     console.log(error);
