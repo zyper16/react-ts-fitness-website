@@ -1,14 +1,31 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import ExerciseCard from "./ExerciseCard";
 
 export default function Exercises({ exercises }) {
   return (
-    <Box width="400px">
-      <Stack direction="row" spacing={2}>
+    <Box id="exercises" sx={{ mt: { lg: "109px" } }} mt="50px" p="20px">
+      <Typography
+        variant="h4"
+        fontWeight="bold"
+        sx={{ fontSize: { lg: "44px", xs: "30px" } }}
+        mb="46px"
+      >
+        Your Search Results:
+      </Typography>
+      <Stack
+        direction="row"
+        sx={{ gap: { lg: "107px", xs: "50px" } }}
+        flexWrap="wrap"
+        justifyContent="center"
+      >
         {exercises.map(exercise => (
-          <ExerciseCard exercise={exercise} />
+          <ExerciseCard key={exercise?.id} exercise={exercise} />
         ))}
       </Stack>
+      <Stack
+        sx={{ mt: { lg: "114px", xs: "70px" } }}
+        alignItems="center"
+      ></Stack>
     </Box>
   );
 }
