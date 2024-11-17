@@ -15,7 +15,7 @@ export default function Home() {
         bodyPart={bodyPart}
         setBodyPart={setBodyPart}
       />
-      <Exercises />
+      <Exercises exercises={exercises} />
     </Box>
   );
 }

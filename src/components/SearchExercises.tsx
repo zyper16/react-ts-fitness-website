@@ -27,7 +27,7 @@ export default function SearchExercises({
       setBodyParts(["all", ...bodyPartsList]);
     };
 
-    fetchBodyParts();
+    // fetchBodyParts();
   }, []);
 
   const handleSearchExercises = async () => {
@@ -35,6 +35,8 @@ export default function SearchExercises({
       "https://exercisedb.p.rapidapi.com/exercises?limit=5000&offset=0",
       fetchOptions
     );
+    console.log(exercisesData);
+
     const searchedExercises = exercisesData.filter(
       exercise =>
         exercise.name.toLowerCase().includes(searchValue) ||
