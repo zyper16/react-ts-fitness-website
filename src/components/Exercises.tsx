@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Stack, Typography, Pagination } from "@mui/material";
 import ExerciseCard from "./ExerciseCard";
 import { ExercisesProps } from "../types/exercisesTypes";
+import { fetchData, fetchOptions } from "../utilities/fetchData";
 
-export default function Exercises({ exercises }: ExercisesProps) {
+export default function Exercises({
+  exercises,
+  setExercises,
+  bodyPart,
+}: ExercisesProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const exercisesPerPage = 9;
   const lastElementIndex = currentPage * exercisesPerPage;
@@ -15,6 +20,26 @@ export default function Exercises({ exercises }: ExercisesProps) {
     setCurrentPage(value);
     window.scrollTo({ top: 1800, behavior: "smooth" });
   };
+
+  useEffect(() => {
+    const fetchExerciseData = async () => {
+      let exercisesList = [];
+      if (bodyPart === "all") {
+        exercisesList = await fetchData(
+          "https://exercisedb.p.rapidapi.com/exercises?limit=5000&offset=0",
+          fetchOptions
+        );
+      } else {
+        exercisesList = await fetchData(
+          `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}?limit=1000&offset=0`,
+          fetchOptions
+        );
+      }
+      setExercises(exercisesList);
+    };
+
+    fetchExerciseData();
+  }, [bodyPart, setExercises]);
 
   return (
     <Box id="exercises" sx={{ mt: { lg: "109px" } }} mt="50px" p="20px">

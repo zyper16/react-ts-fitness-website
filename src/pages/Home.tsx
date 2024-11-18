@@ -8,6 +8,8 @@ import { ExerciseType } from "../types/exercisesTypes";
 export default function Home() {
   const [exercises, setExercises] = useState<ExerciseType[]>([]);
   const [bodyPart, setBodyPart] = useState<string>("all");
+  console.log(bodyPart);
+
   return (
     <Box>
       <HeroBanner />
@@ -16,7 +18,11 @@ export default function Home() {
         bodyPart={bodyPart}
         setBodyPart={setBodyPart}
       />
-      <Exercises exercises={exercises} />
+      <Exercises
+        exercises={exercises}
+        bodyPart={bodyPart}
+        setExercises={setExercises}
+      />
     </Box>
   );
 }
