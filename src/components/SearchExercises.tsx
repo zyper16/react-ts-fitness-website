@@ -1,14 +1,9 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import { Stack, Typography, Box, TextField, Button } from "@mui/material";
 
 import { fetchData, fetchOptions } from "../utilities/fetchData";
 import HorizontalScrollBar from "./HorizontalScrollBar";
-
-type SearchExercisesProps = {
-  setExercises: Dispatch<SetStateAction<string[]>>;
-  bodyPart: string;
-  setBodyPart: Dispatch<SetStateAction<string>>;
-};
+import { ExerciseType, SearchExercisesProps } from "../types/exercisesTypes";
 
 export default function SearchExercises({
   setExercises,
@@ -38,7 +33,7 @@ export default function SearchExercises({
     console.log(exercisesData);
 
     const searchedExercises = exercisesData.filter(
-      exercise =>
+      (exercise: ExerciseType) =>
         exercise.name.toLowerCase().includes(searchValue) ||
         exercise.target.toLowerCase().includes(searchValue) ||
         exercise.equipment.toLowerCase().includes(searchValue) ||

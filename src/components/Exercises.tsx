@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Box, Stack, Typography, Pagination } from "@mui/material";
 import ExerciseCard from "./ExerciseCard";
+import { ExercisesProps } from "../types/exercisesTypes";
 
-export default function Exercises({ exercises }) {
+export default function Exercises({ exercises }: ExercisesProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const exercisesPerPage = 9;
   const lastElementIndex = currentPage * exercisesPerPage;

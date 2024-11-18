@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Stack, Button, Typography } from "@mui/material";
+import { ExerciseCardProps } from "../types/exercisesTypes";
 
-export default function ExerciseCard({ exercise }) {
+export default function ExerciseCard({ exercise }: ExerciseCardProps) {
   return (
     <Link className="exercise-card" to={`/exercise/${exercise.id}`}>
       <img src={exercise.gifUrl} alt={exercise.name} loading="lazy" />

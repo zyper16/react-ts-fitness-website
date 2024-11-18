@@ -1,17 +1,11 @@
-import { Dispatch, SetStateAction, useContext } from "react";
+import { useContext } from "react";
 import { Box, Typography } from "@mui/material";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import "react-horizontal-scrolling-menu/styles.css";
 import LeftArrowIcon from "../assets/icons/left-arrow.png";
 import RightArrowIcon from "../assets/icons/right-arrow.png";
-
 import BodyPartCard from "./BodyPartCard";
-
-type HorizontalScrollBarProps = {
-  bodyPartsList: string[];
-  bodyPart: string;
-  setBodyPart: Dispatch<SetStateAction<string>>;
-};
+import { HorizontalScrollBarProps } from "../types/exercisesTypes";
 
 const LeftArrow = () => {
   const { scrollPrev } = useContext(VisibilityContext);

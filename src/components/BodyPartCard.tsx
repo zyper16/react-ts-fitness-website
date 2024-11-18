@@ -1,18 +1,12 @@
-import { Dispatch, SetStateAction } from "react";
 import { Stack, Typography } from "@mui/material";
 import Icon from "../assets/icons/gym.png";
-
-type BodyPartCard = {
-  item: string;
-  bodyPart: string;
-  setBodyPart: Dispatch<SetStateAction<string>>;
-};
+import { BodyPartCardProps } from "../types/exercisesTypes";
 
 export default function BodyPartCard({
   item,
   bodyPart,
   setBodyPart,
-}: BodyPartCard) {
+}: BodyPartCardProps) {
   return (
     <Stack
       alignItems="center"
