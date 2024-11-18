@@ -14,7 +14,7 @@ export type ExercisesProps = {
 };
 
 export type SearchExercisesProps = {
-  setExercises: React.Dispatch<React.SetStateAction<string[]>>;
+  setExercises: React.Dispatch<React.SetStateAction<ExerciseType[]>>;
   bodyPart: string;
   setBodyPart: React.Dispatch<React.SetStateAction<string>>;
 };
