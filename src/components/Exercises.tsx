@@ -35,7 +35,7 @@ export default function Exercises({
           fetchOptions
         );
       }
-      setExercises(exercisesList);
+      // setExercises(exercisesList);
     };
 
     fetchExerciseData();

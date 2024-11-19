@@ -22,7 +22,7 @@ export default function SearchExercises({
       setBodyParts(["all", ...bodyPartsList]);
     };
 
-    fetchBodyParts();
+    // fetchBodyParts();
   }, []);
 
   const handleSearchExercises = async () => {
