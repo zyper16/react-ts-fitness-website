@@ -13,6 +13,7 @@ import { ExerciseType } from "../types/exercisesTypes";
 
 export default function ExerciseDetail() {
   const [exerciseData, setExerciseData] = useState<ExerciseType>({});
+  const [youtubeVideos, setYoutubeVideos] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -20,26 +21,27 @@ export default function ExerciseDetail() {
       const exerciseDBUrl = "https://exercisedb.p.rapidapi.com";
       const youtubeSearchUrl =
         "https://youtube-search-and-download.p.rapidapi.com";
-      const exerciseDetailsData = await fetchData(
-        `${exerciseDBUrl}/exercises/exercise/${id}`,
-        fetchOptions
-      );
+      // const exerciseDetailsData = await fetchData(
+      //   `${exerciseDBUrl}/exercises/exercise/${id}`,
+      //   fetchOptions
+      // );
       const youtubeSearchData = await fetchData(
-        `${youtubeSearchUrl}/search?query=3%2F4%20sit-up`,
+        `${youtubeSearchUrl}/search?query=dumbbells`,
         fetchYoutubeOptions
       );
-      console.log(exerciseDetailsData);
-      console.log(youtubeSearchData);
+      // console.log(exerciseDetailsData);
+      // console.log(youtubeSearchData.contents);
 
-      setExerciseData(exerciseDetailsData);
+      // setExerciseData(exerciseDetailsData);
+      setYoutubeVideos(youtubeSearchData.contents);
     };
     fetchExerciseDetails();
   }, [id]);
 
   return (
-    <Box>
+    <Box sx={{ mt: { lg: "96px", xs: "60px" } }}>
       <ExerciseInfo exercise={exerciseData} />
-      <ExerciseVideos />
+      <ExerciseVideos youtubeVideos={youtubeVideos} />
       <SimilarExercises />
     </Box>
   );
