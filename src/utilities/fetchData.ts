@@ -6,6 +6,14 @@ export const fetchOptions = {
   },
 };
 
+export const fetchYoutubeOptions = {
+  method: "GET",
+  headers: {
+    "x-rapidapi-key": import.meta.env.VITE_EXERCISEDB_API_KEY,
+    "x-rapidapi-host": "youtube-search-and-download.p.rapidapi.com'",
+  },
+};
+
 export async function fetchData(url: string, options?: RequestInit) {
   try {
     const response = await fetch(url, options);

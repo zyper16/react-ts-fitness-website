@@ -4,7 +4,11 @@ import ExerciseInfo from "../components/ExerciseInfo";
 import ExerciseVideos from "../components/ExerciseVideos";
 import SimilarExercises from "../components/SimilarExercises";
 import { Box } from "@mui/material";
-import { fetchData, fetchOptions } from "../utilities/fetchData";
+import {
+  fetchData,
+  fetchOptions,
+  fetchYoutubeOptions,
+} from "../utilities/fetchData";
 import { ExerciseType } from "../types/exercisesTypes";
 
 export default function ExerciseDetail() {
@@ -20,7 +24,12 @@ export default function ExerciseDetail() {
         `${exerciseDBUrl}/exercises/exercise/${id}`,
         fetchOptions
       );
+      const youtubeSearchData = await fetchData(
+        `${youtubeSearchUrl}/search?query=3%2F4%20sit-up`,
+        fetchYoutubeOptions
+      );
       console.log(exerciseDetailsData);
+      console.log(youtubeSearchData);
 
       setExerciseData(exerciseDetailsData);
     };
