@@ -57,7 +57,7 @@ type Video = {
   viewCountText: string;
 };
 
-type YouTubeVideo = {
+export type YouTubeVideo = {
   video: Video;
 };
 

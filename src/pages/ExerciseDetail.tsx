@@ -9,11 +9,15 @@ import {
   fetchOptions,
   fetchYoutubeOptions,
 } from "../utilities/fetchData";
-import { ExerciseType } from "../types/exercisesTypes";
+import { ExerciseType, YouTubeVideo } from "../types/exercisesTypes";
 
 export default function ExerciseDetail() {
   const [exerciseData, setExerciseData] = useState<ExerciseType>({});
-  const [youtubeVideos, setYoutubeVideos] = useState([]);
+  const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
+  const [targetExercises, setTargetExercises] = useState<ExerciseType[]>([]);
+  const [equipmentExercises, setEquipmentExercises] = useState<ExerciseType[]>(
+    []
+  );
   const { id } = useParams();
 
   useEffect(() => {
@@ -22,27 +26,41 @@ export default function ExerciseDetail() {
       const youtubeSearchUrl =
         "https://youtube-search-and-download.p.rapidapi.com";
 
-      // I am out of API calls :,)
-      // const exerciseDetailsData = await fetchData(
-      //   `${exerciseDBUrl}/exercises/exercise/${id}`,
-      //   fetchOptions
-      // );
+      const exerciseDetailsData = await fetchData(
+        `${exerciseDBUrl}/exercises/exercise/${id}`,
+        fetchOptions
+      );
       const youtubeSearchData = await fetchData(
-        `${youtubeSearchUrl}/search?query=dumbbells`,
+        `${youtubeSearchUrl}/search?query=${exerciseDetailsData.name}`,
         fetchYoutubeOptions
       );
 
-      // setExerciseData(exerciseDetailsData);
+      const targetMuscleData = await fetchData(
+        `${exerciseDBUrl}/exercises/target/${exerciseDetailsData.target}?limit=3&offset=0`,
+        fetchOptions
+      );
+
+      const equipmentExercisesData = await fetchData(
+        `${exerciseDBUrl}/exercises/equipment/${exerciseDetailsData.equipment}?limit=3&offset=0`,
+        fetchOptions
+      );
+
+      setExerciseData(exerciseDetailsData);
       setYoutubeVideos(youtubeSearchData.contents);
+      setTargetExercises(targetMuscleData);
+      setEquipmentExercises(equipmentExercisesData);
     };
     fetchExerciseDetails();
-  }, [id]);
+  }, [exerciseData.equipment, exerciseData.name, exerciseData.target, id]);
 
   return (
     <Box sx={{ mt: { lg: "96px", xs: "60px" } }}>
       <ExerciseInfo exercise={exerciseData} />
       <ExerciseVideos youtubeVideos={youtubeVideos} />
-      <SimilarExercises />
+      <SimilarExercises
+        targetExercises={targetExercises}
+        equipmentExercises={equipmentExercises}
+      />
     </Box>
   );
 }
