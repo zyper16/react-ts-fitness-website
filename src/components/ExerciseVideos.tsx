@@ -1,11 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
+import { ExerciseVideosProps } from "../types/exercisesTypes";
 
-export default function ExerciseVideos({ youtubeVideos }) {
-  // console.log(Array.isArray(youtubeVideos));
-  // console.log(youtubeVideos);
-  // youtubeVideos
-  //   .slice(0, 3)
-  //   .forEach(video => console.log(video.video.thumbnails[0].url));
+export default function ExerciseVideos({ youtubeVideos }: ExerciseVideosProps) {
   return (
     <Box sx={{ marginTop: { lg: "203px", xs: "20px" } }} p="20px">
       <Typography

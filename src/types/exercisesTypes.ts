@@ -36,3 +36,31 @@ export type HorizontalScrollBarProps = {
   bodyPart: string;
   setBodyPart: React.Dispatch<React.SetStateAction<string>>;
 };
+
+// YouTube Videos Props
+
+type Thumbnail = {
+  height: number;
+  url: string;
+  width: number;
+};
+
+type Video = {
+  channelId: string;
+  channelName: string;
+  description: string;
+  lengthText: string;
+  publishedTimeText: string;
+  thumbnails: Thumbnail[];
+  title: string;
+  videoId: string;
+  viewCountText: string;
+};
+
+type YouTubeVideo = {
+  video: Video;
+};
+
+export type ExerciseVideosProps = {
+  youtubeVideos: YouTubeVideo[];
+};

@@ -21,6 +21,8 @@ export default function ExerciseDetail() {
       const exerciseDBUrl = "https://exercisedb.p.rapidapi.com";
       const youtubeSearchUrl =
         "https://youtube-search-and-download.p.rapidapi.com";
+
+      // I am out of API calls :,)
       // const exerciseDetailsData = await fetchData(
       //   `${exerciseDBUrl}/exercises/exercise/${id}`,
       //   fetchOptions
@@ -29,8 +31,6 @@ export default function ExerciseDetail() {
         `${youtubeSearchUrl}/search?query=dumbbells`,
         fetchYoutubeOptions
       );
-      // console.log(exerciseDetailsData);
-      // console.log(youtubeSearchData.contents);
 
       // setExerciseData(exerciseDetailsData);
       setYoutubeVideos(youtubeSearchData.contents);
