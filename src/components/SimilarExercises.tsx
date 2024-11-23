@@ -1,12 +1,17 @@
 import { Box, Typography, Stack } from "@mui/material";
 import ExerciseCard from "./ExerciseCard";
+import Loader from "./Loader";
 
 export default function SimilarExercises({
   targetExercises,
   equipmentExercises,
 }) {
+  {
+    if (targetExercises.length === 0 || targetExercises.length === 0)
+      return <Loader />;
+  }
   return (
-    <Box id="exercises" sx={{ mt: { lg: "109px" } }} mt="50px" p="20px">
+    <Box sx={{ mt: { lg: "109px" } }} mt="50px" p="20px">
       <Typography
         variant="h4"
         fontWeight="bold"
