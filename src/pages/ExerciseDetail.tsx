@@ -12,7 +12,16 @@ import {
 import { ExerciseType, YouTubeVideo } from "../types/exercisesTypes";
 
 export default function ExerciseDetail() {
-  const [exerciseData, setExerciseData] = useState<ExerciseType>({});
+  const [exerciseData, setExerciseData] = useState<ExerciseType>({
+    bodyPart: "",
+    equipment: "",
+    gifUrl: "",
+    id: "",
+    name: "",
+    target: "",
+    secondaryMuscles: [],
+    instructions: [],
+  });
   const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
   const [targetExercises, setTargetExercises] = useState<ExerciseType[]>([]);
   const [equipmentExercises, setEquipmentExercises] = useState<ExerciseType[]>(
@@ -36,12 +45,12 @@ export default function ExerciseDetail() {
       );
 
       const targetMuscleData = await fetchData(
-        `${exerciseDBUrl}/exercises/target/${exerciseDetailsData.target}?limit=3&offset=0`,
+        `${exerciseDBUrl}/exercises/target/${exerciseDetailsData.target}?limit=10&offset=0`,
         fetchOptions
       );
 
       const equipmentExercisesData = await fetchData(
-        `${exerciseDBUrl}/exercises/equipment/${exerciseDetailsData.equipment}?limit=3&offset=0`,
+        `${exerciseDBUrl}/exercises/equipment/${exerciseDetailsData.equipment}?limit=10&offset=0`,
         fetchOptions
       );
 
