@@ -21,7 +21,7 @@ export default function BodyPartCard({
         cursor: "pointer",
         gap: "47px",
       }}
-      onClick={() => setBodyPart(item)}
+      onClick={() => setBodyPart && setBodyPart(item)}
     >
       <img
         src={Icon}

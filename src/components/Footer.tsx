@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import Logo from "../assets/images/logo-placeholder.png";
-import getCurrentYear from "../types/getCurrentYear";
+import getCurrentYear from "../utilities/getCurrentYear";
 
 export default function Footer() {
   return (
