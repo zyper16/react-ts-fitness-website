@@ -1,11 +1,12 @@
 import { Box, Typography, Stack } from "@mui/material";
 import HorizontalScrollBar from "./HorizontalScrollBar";
 import Loader from "./Loader";
+import { SimilarExercisesProps } from "../types/exercisesTypes";
 
 export default function SimilarExercises({
   targetExercises,
   equipmentExercises,
-}) {
+}: SimilarExercisesProps) {
   return (
     <Box sx={{ mt: { lg: "100px", xs: "0px" } }}>
       <Typography

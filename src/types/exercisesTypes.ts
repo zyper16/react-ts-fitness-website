@@ -9,6 +9,10 @@ export type ExerciseType = {
   instructions: string[];
 };
 
+export function isExerciseType(item: unknown): item is ExerciseType {
+  return (item as ExerciseType).id !== undefined;
+}
+
 export type ExercisesProps = {
   exercises: ExerciseType[];
   setExercises: React.Dispatch<React.SetStateAction<ExerciseType[]>>;
@@ -23,8 +27,8 @@ export type SearchExercisesProps = {
 
 export type BodyPartCardProps = {
   item: string;
-  bodyPart: string;
-  setBodyPart: React.Dispatch<React.SetStateAction<string>>;
+  bodyPart: string | undefined;
+  setBodyPart: React.Dispatch<React.SetStateAction<string>> | undefined;
 };
 
 export type ExerciseCardProps = {
@@ -32,7 +36,7 @@ export type ExerciseCardProps = {
 };
 
 export type HorizontalScrollBarProps = {
-  data: any;
+  data: ExerciseType[] | string[];
   bodyPart?: string;
   setBodyPart?: React.Dispatch<React.SetStateAction<string>>;
   isBodyPart?: boolean;
@@ -64,4 +68,9 @@ export type YouTubeVideo = {
 
 export type ExerciseVideosProps = {
   youtubeVideos: YouTubeVideo[];
+};
+
+export type SimilarExercisesProps = {
+  targetExercises: ExerciseType[];
+  equipmentExercises: ExerciseType[];
 };

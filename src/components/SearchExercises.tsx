@@ -22,7 +22,7 @@ export default function SearchExercises({
       setBodyParts(["all", ...bodyPartsList]);
     };
 
-    // fetchBodyParts();
+    fetchBodyParts();
   }, []);
 
   const handleSearchExercises = async () => {
@@ -88,7 +88,7 @@ export default function SearchExercises({
       </Box>
       <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
         <HorizontalScrollBar
-          bodyPartsList={bodyParts}
+          data={bodyParts}
           bodyPart={bodyPart}
           setBodyPart={setBodyPart}
           isBodyPart={true}

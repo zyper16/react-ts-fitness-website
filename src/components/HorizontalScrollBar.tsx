@@ -6,6 +6,7 @@ import LeftArrowIcon from "../assets/icons/left-arrow.png";
 import RightArrowIcon from "../assets/icons/right-arrow.png";
 import BodyPartCard from "./BodyPartCard";
 import ExerciseCard from "./ExerciseCard";
+import { isExerciseType } from "../types/exercisesTypes";
 import { HorizontalScrollBarProps } from "../types/exercisesTypes";
 
 const LeftArrow = () => {
@@ -38,15 +39,19 @@ export default function HorizontalScrollBar({
     <div style={{ width: "100%", overflowX: "auto" }}>
       <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
         {data.map(item => (
-          <Box key={item.id || item} title={item.id || item} m="0 40px">
-            {isBodyPart ? (
+          <Box
+            key={isExerciseType(item) ? item.id : item}
+            title={isExerciseType(item) ? item.id : item}
+            m="0 40px"
+          >
+            {isBodyPart && !isExerciseType(item) ? (
               <BodyPartCard
                 item={item}
                 bodyPart={bodyPart}
                 setBodyPart={setBodyPart}
               />
             ) : (
-              <ExerciseCard exercise={item} />
+              isExerciseType(item) && <ExerciseCard exercise={item} />
             )}
           </Box>
         ))}

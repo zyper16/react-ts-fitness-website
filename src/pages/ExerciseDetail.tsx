@@ -12,7 +12,16 @@ import {
 import { ExerciseType, YouTubeVideo } from "../types/exercisesTypes";
 
 export default function ExerciseDetail() {
-  const [exerciseData, setExerciseData] = useState<ExerciseType>({});
+  const [exerciseData, setExerciseData] = useState<ExerciseType>({
+    bodyPart: "",
+    equipment: "",
+    gifUrl: "",
+    id: "",
+    name: "",
+    target: "",
+    secondaryMuscles: [],
+    instructions: [],
+  });
   const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
   const [targetExercises, setTargetExercises] = useState<ExerciseType[]>([]);
   const [equipmentExercises, setEquipmentExercises] = useState<ExerciseType[]>(
