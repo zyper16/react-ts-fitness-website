@@ -91,6 +91,7 @@ export default function SearchExercises({
           bodyPartsList={bodyParts}
           bodyPart={bodyPart}
           setBodyPart={setBodyPart}
+          isBodyPart={true}
         />
       </Box>
     </Stack>

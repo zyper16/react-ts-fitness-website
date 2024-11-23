@@ -32,9 +32,10 @@ export type ExerciseCardProps = {
 };
 
 export type HorizontalScrollBarProps = {
-  bodyPartsList: string[];
-  bodyPart: string;
-  setBodyPart: React.Dispatch<React.SetStateAction<string>>;
+  data: any;
+  bodyPart?: string;
+  setBodyPart?: React.Dispatch<React.SetStateAction<string>>;
+  isBodyPart?: boolean;
 };
 
 // YouTube Videos Props

@@ -36,12 +36,12 @@ export default function ExerciseDetail() {
       );
 
       const targetMuscleData = await fetchData(
-        `${exerciseDBUrl}/exercises/target/${exerciseDetailsData.target}?limit=3&offset=0`,
+        `${exerciseDBUrl}/exercises/target/${exerciseDetailsData.target}?limit=10&offset=0`,
         fetchOptions
       );
 
       const equipmentExercisesData = await fetchData(
-        `${exerciseDBUrl}/exercises/equipment/${exerciseDetailsData.equipment}?limit=3&offset=0`,
+        `${exerciseDBUrl}/exercises/equipment/${exerciseDetailsData.equipment}?limit=10&offset=0`,
         fetchOptions
       );
 

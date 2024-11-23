@@ -1,52 +1,54 @@
 import { Box, Typography, Stack } from "@mui/material";
-import ExerciseCard from "./ExerciseCard";
+import HorizontalScrollBar from "./HorizontalScrollBar";
 import Loader from "./Loader";
 
 export default function SimilarExercises({
   targetExercises,
   equipmentExercises,
 }) {
-  {
-    if (targetExercises.length === 0 || targetExercises.length === 0)
-      return <Loader />;
-  }
   return (
-    <Box sx={{ mt: { lg: "109px" } }} mt="50px" p="20px">
+    <Box sx={{ mt: { lg: "100px", xs: "0px" } }}>
       <Typography
-        variant="h4"
-        fontWeight="bold"
-        sx={{ fontSize: { lg: "44px", xs: "30px" } }}
-        mb="46px"
+        sx={{ fontSize: { lg: "44px", xs: "25px" }, ml: "20px" }}
+        fontWeight={700}
+        color="#000"
+        mb="33px"
       >
-        Exercises with same target group:
+        Similar{" "}
+        <span style={{ color: "#FF2625", textTransform: "capitalize" }}>
+          Target Muscle
+        </span>{" "}
+        exercises
       </Typography>
-      <Stack
-        direction="row"
-        sx={{ gap: { lg: "107px", xs: "50px" } }}
-        flexWrap="wrap"
-        justifyContent="center"
-      >
-        {targetExercises.map(exercise => (
-          <ExerciseCard key={exercise?.id} exercise={exercise} />
-        ))}
+      <Stack direction="row" sx={{ p: 2, position: "relative" }}>
+        {targetExercises.length !== 0 ? (
+          <HorizontalScrollBar data={targetExercises} />
+        ) : (
+          <Loader />
+        )}
       </Stack>
       <Typography
-        variant="h4"
-        fontWeight="bold"
-        sx={{ fontSize: { lg: "44px", xs: "30px" } }}
-        mb="46px"
+        sx={{
+          fontSize: { lg: "44px", xs: "25px" },
+          ml: "20px",
+          mt: { lg: "100px", xs: "60px" },
+        }}
+        fontWeight={700}
+        color="#000"
+        mb="33px"
       >
-        Exercises using same equipment:
+        Similar{" "}
+        <span style={{ color: "#FF2625", textTransform: "capitalize" }}>
+          Equipment
+        </span>{" "}
+        exercises
       </Typography>
-      <Stack
-        direction="row"
-        sx={{ gap: { lg: "107px", xs: "50px" } }}
-        flexWrap="wrap"
-        justifyContent="center"
-      >
-        {equipmentExercises.map(exercise => (
-          <ExerciseCard key={exercise?.id} exercise={exercise} />
-        ))}
+      <Stack direction="row" sx={{ p: 2, position: "relative" }}>
+        {equipmentExercises.length !== 0 ? (
+          <HorizontalScrollBar data={equipmentExercises} />
+        ) : (
+          <Loader />
+        )}
       </Stack>
     </Box>
   );
