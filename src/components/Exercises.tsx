@@ -3,6 +3,7 @@ import { Box, Stack, Typography, Pagination } from "@mui/material";
 import ExerciseCard from "./ExerciseCard";
 import { ExercisesProps } from "../types/exercisesTypes";
 import { fetchData, fetchOptions } from "../utilities/fetchData";
+import Loader from "./Loader";
 
 export default function Exercises({
   exercises,
@@ -10,6 +11,7 @@ export default function Exercises({
   bodyPart,
 }: ExercisesProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const exercisesPerPage = 9;
   const lastElementIndex = currentPage * exercisesPerPage;
   const firstElementIndex = lastElementIndex - exercisesPerPage;
@@ -23,6 +25,7 @@ export default function Exercises({
 
   useEffect(() => {
     const fetchExerciseData = async () => {
+      setIsLoading(true);
       let exercisesList = [];
       if (bodyPart === "all") {
         exercisesList = await fetchData(
@@ -36,6 +39,7 @@ export default function Exercises({
         );
       }
       setExercises(exercisesList);
+      setIsLoading(false);
     };
 
     fetchExerciseData();
@@ -51,16 +55,21 @@ export default function Exercises({
       >
         Your Search Results:
       </Typography>
-      <Stack
-        direction="row"
-        sx={{ gap: { lg: "107px", xs: "50px" } }}
-        flexWrap="wrap"
-        justifyContent="center"
-      >
-        {currentExercises.map(exercise => (
-          <ExerciseCard key={exercise?.id} exercise={exercise} />
-        ))}
-      </Stack>
+
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Stack
+          direction="row"
+          sx={{ gap: { lg: "107px", xs: "50px" } }}
+          flexWrap="wrap"
+          justifyContent="center"
+        >
+          {currentExercises.map(exercise => (
+            <ExerciseCard key={exercise?.id} exercise={exercise} />
+          ))}
+        </Stack>
+      )}
       <Stack sx={{ mt: { lg: "114px", xs: "70px" } }} alignItems="center">
         {exercises.length > exercisesPerPage && (
           <Pagination

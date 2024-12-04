@@ -4,7 +4,7 @@ import getCurrentYear from "../utilities/getCurrentYear";
 
 export default function Footer() {
   return (
-    <Box mt="80px" bgcolor="#FFF3F4" height="30vh">
+    <Box mt="80px" bgcolor="#FFF3F4">
       <Stack
         gap="40px"
         sx={{ alignItems: "center" }}
