@@ -27,7 +27,15 @@ export default function HeroBanner() {
       >
         Check out the most effective exercises personalized to you
       </Typography>
-      <Button variant="contained" color="error" href="#exercises">
+      <Button
+        variant="contained"
+        color="error"
+        onClick={() => {
+          document
+            .querySelector("#exercises")
+            ?.scrollIntoView({ behavior: "smooth" });
+        }}
+      >
         Explore Exercises
       </Button>
       <Typography
