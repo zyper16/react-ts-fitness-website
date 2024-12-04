@@ -43,7 +43,6 @@ export default function SearchExercises({
 
     setSearchValue("");
     setExercises(searchedExercises);
-    console.log(searchedExercises);
   };
 
   return (
