@@ -4,6 +4,7 @@ import ExerciseCard from "./ExerciseCard";
 import { ExercisesProps } from "../types/exercisesTypes";
 import { fetchData, fetchOptions } from "../utilities/fetchData";
 import Loader from "./Loader";
+import ErrorMessage from "./ErrorMessage";
 
 export default function Exercises({
   exercises,
@@ -12,6 +13,7 @@ export default function Exercises({
 }: ExercisesProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<null | string>(null);
   const exercisesPerPage = 9;
   const lastElementIndex = currentPage * exercisesPerPage;
   const firstElementIndex = lastElementIndex - exercisesPerPage;
@@ -25,21 +27,27 @@ export default function Exercises({
 
   useEffect(() => {
     const fetchExerciseData = async () => {
-      setIsLoading(true);
-      let exercisesList = [];
-      if (bodyPart === "all") {
-        exercisesList = await fetchData(
-          "https://exercisedb.p.rapidapi.com/exercises?limit=5000&offset=0",
-          fetchOptions
-        );
-      } else {
-        exercisesList = await fetchData(
-          `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}?limit=1000&offset=0`,
-          fetchOptions
-        );
+      try {
+        setIsLoading(true);
+        let exercisesList = [];
+        if (bodyPart === "all") {
+          exercisesList = await fetchData(
+            "https://exercisedb.p.rapidapi.com/exercises?limit=5000&offset=0",
+            fetchOptions
+          );
+        } else {
+          exercisesList = await fetchData(
+            `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}?limit=1000&offset=0`,
+            fetchOptions
+          );
+        }
+        setExercises(exercisesList);
+      } catch (error) {
+        console.log(error);
+        setError(`Failed to load exercise data! ${error}`);
+      } finally {
+        setIsLoading(false);
       }
-      setExercises(exercisesList);
-      setIsLoading(false);
     };
 
     fetchExerciseData();
@@ -58,6 +66,8 @@ export default function Exercises({
 
       {isLoading ? (
         <Loader />
+      ) : error ? (
+        <ErrorMessage error={error} />
       ) : (
         <Stack
           direction="row"

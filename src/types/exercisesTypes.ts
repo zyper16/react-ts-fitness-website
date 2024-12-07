@@ -76,5 +76,5 @@ export type SimilarExercisesProps = {
 };
 
 export type ErrorMessageType = {
-  error: string;
+  error: null | string;
 };
