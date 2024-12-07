@@ -74,3 +74,7 @@ export type SimilarExercisesProps = {
   targetExercises: ExerciseType[];
   equipmentExercises: ExerciseType[];
 };
+
+export type ErrorMessageType = {
+  error: string;
+};
