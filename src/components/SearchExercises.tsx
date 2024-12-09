@@ -16,6 +16,7 @@ export default function SearchExercises({
   const [bodyParts, setBodyParts] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorBodyParts, setBodyPartsError] = useState<null | string>(null);
+  const [errorSearch, setErrorSearch] = useState<null | string>(null);
 
   useEffect(() => {
     const fetchBodyParts = async () => {
@@ -38,22 +39,28 @@ export default function SearchExercises({
   }, []);
 
   const handleSearchExercises = async () => {
-    const exercisesData = await fetchData(
-      "https://exercisedb.p.rapidapi.com/exercises?limit=5000&offset=0",
-      fetchOptions
-    );
+    try {
+      const exercisesData = await fetchData(
+        "https://exercisedb.p.rapidapi.com/exercises?limit=5000&offset=0",
+        fetchOptions
+      );
 
-    const searchedExercises = exercisesData.filter(
-      (exercise: ExerciseType) =>
-        exercise.name.toLowerCase().includes(searchValue) ||
-        exercise.target.toLowerCase().includes(searchValue) ||
-        exercise.equipment.toLowerCase().includes(searchValue) ||
-        exercise.bodyPart.toLowerCase().includes(searchValue)
-    );
-    window.scrollTo({ top: 1800, left: 100, behavior: "smooth" });
+      const searchedExercises = exercisesData.filter(
+        (exercise: ExerciseType) =>
+          exercise.name.toLowerCase().includes(searchValue) ||
+          exercise.target.toLowerCase().includes(searchValue) ||
+          exercise.equipment.toLowerCase().includes(searchValue) ||
+          exercise.bodyPart.toLowerCase().includes(searchValue)
+      );
+      window.scrollTo({ top: 1800, left: 100, behavior: "smooth" });
 
-    setSearchValue("");
-    setExercises(searchedExercises);
+      setExercises(searchedExercises);
+    } catch (error) {
+      console.log(error);
+      setErrorSearch(`Search has failed! (${error}) Please try again.`);
+    } finally {
+      setSearchValue("");
+    }
   };
 
   return (
@@ -92,10 +99,14 @@ export default function SearchExercises({
             fontSize: { lg: "20px", xs: "14px" },
           }}
           onClick={handleSearchExercises}
+          disabled={!searchValue.trim()}
         >
           Search
         </Button>
       </Box>
+      <Typography>
+        {errorSearch && <ErrorMessage error={errorSearch} />}
+      </Typography>
       {isLoading ? (
         <Loader />
       ) : errorBodyParts ? (
