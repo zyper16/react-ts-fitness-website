@@ -10,6 +10,7 @@ import {
   fetchYoutubeOptions,
 } from "../utilities/fetchData";
 import { ExerciseType, YouTubeVideo } from "../types/exercisesTypes";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function ExerciseDetail() {
   const [exerciseData, setExerciseData] = useState<ExerciseType>({
@@ -28,39 +29,46 @@ export default function ExerciseDetail() {
     []
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<null | string>(null);
   const { id } = useParams();
 
   useEffect(() => {
     const fetchExerciseDetails = async () => {
-      setIsLoading(true);
-      const exerciseDBUrl = "https://exercisedb.p.rapidapi.com";
-      const youtubeSearchUrl =
-        "https://youtube-search-and-download.p.rapidapi.com";
+      try {
+        setIsLoading(true);
+        const exerciseDBUrl = "https://exercisedb.p.rapidapi.com";
+        const youtubeSearchUrl =
+          "https://youtube-search-and-download.p.rapidapi.com";
 
-      const exerciseDetailsData = await fetchData(
-        `${exerciseDBUrl}/exercises/exercise/${id}`,
-        fetchOptions
-      );
-      const youtubeSearchData = await fetchData(
-        `${youtubeSearchUrl}/search?query=${exerciseDetailsData.name}`,
-        fetchYoutubeOptions
-      );
+        const exerciseDetailsData = await fetchData(
+          `${exerciseDBUrl}/exercises/exercise/${id}`,
+          fetchOptions
+        );
+        const youtubeSearchData = await fetchData(
+          `${youtubeSearchUrl}/search?query=${exerciseDetailsData.name}`,
+          fetchYoutubeOptions
+        );
 
-      const targetMuscleData = await fetchData(
-        `${exerciseDBUrl}/exercises/target/${exerciseDetailsData.target}?limit=10&offset=0`,
-        fetchOptions
-      );
+        const targetMuscleData = await fetchData(
+          `${exerciseDBUrl}/exercises/target/${exerciseDetailsData.target}?limit=10&offset=0`,
+          fetchOptions
+        );
 
-      const equipmentExercisesData = await fetchData(
-        `${exerciseDBUrl}/exercises/equipment/${exerciseDetailsData.equipment}?limit=10&offset=0`,
-        fetchOptions
-      );
+        const equipmentExercisesData = await fetchData(
+          `${exerciseDBUrl}/exercises/equipment/${exerciseDetailsData.equipment}?limit=10&offset=0`,
+          fetchOptions
+        );
 
-      setExerciseData(exerciseDetailsData);
-      setYoutubeVideos(youtubeSearchData.contents);
-      setTargetExercises(targetMuscleData);
-      setEquipmentExercises(equipmentExercisesData);
-      setIsLoading(false);
+        setExerciseData(exerciseDetailsData);
+        setYoutubeVideos(youtubeSearchData.contents);
+        setTargetExercises(targetMuscleData);
+        setEquipmentExercises(equipmentExercisesData);
+      } catch (error) {
+        console.log(error);
+        setError(`Failed to load exercise data! ${error}`);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchExerciseDetails();
   }, [exerciseData.equipment, exerciseData.name, exerciseData.target, id]);
@@ -75,6 +83,17 @@ export default function ExerciseDetail() {
       }}
     >
       <CircularProgress />
+    </Box>
+  ) : error ? (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "70vh",
+      }}
+    >
+      <ErrorMessage error={error} />
     </Box>
   ) : (
     <Box sx={{ mt: { lg: "96px", xs: "60px" } }}>
