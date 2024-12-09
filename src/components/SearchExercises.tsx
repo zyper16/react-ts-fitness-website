@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Stack, Typography, Box, TextField, Button } from "@mui/material";
+import Loader from "./Loader";
+import ErrorMessage from "./ErrorMessage";
 
 import { fetchData, fetchOptions } from "../utilities/fetchData";
 import HorizontalScrollBar from "./HorizontalScrollBar";
@@ -12,14 +14,24 @@ export default function SearchExercises({
 }: SearchExercisesProps) {
   const [searchValue, setSearchValue] = useState<string>("");
   const [bodyParts, setBodyParts] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [errorBodyParts, setBodyPartsError] = useState<null | string>(null);
 
   useEffect(() => {
     const fetchBodyParts = async () => {
-      const bodyPartsList = await fetchData(
-        "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
-        fetchOptions
-      );
-      setBodyParts(["all", ...bodyPartsList]);
+      try {
+        setIsLoading(true);
+        const bodyPartsList = await fetchData(
+          "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
+          fetchOptions
+        );
+        setBodyParts(["all", ...bodyPartsList]);
+      } catch (error) {
+        console.log(error);
+        setBodyPartsError(`Failed to load available body parts! ${error}`);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchBodyParts();
@@ -30,7 +42,6 @@ export default function SearchExercises({
       "https://exercisedb.p.rapidapi.com/exercises?limit=5000&offset=0",
       fetchOptions
     );
-    console.log(exercisesData);
 
     const searchedExercises = exercisesData.filter(
       (exercise: ExerciseType) =>
@@ -85,14 +96,20 @@ export default function SearchExercises({
           Search
         </Button>
       </Box>
-      <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
-        <HorizontalScrollBar
-          data={bodyParts}
-          bodyPart={bodyPart}
-          setBodyPart={setBodyPart}
-          isBodyPart={true}
-        />
-      </Box>
+      {isLoading ? (
+        <Loader />
+      ) : errorBodyParts ? (
+        <ErrorMessage error={errorBodyParts} />
+      ) : (
+        <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
+          <HorizontalScrollBar
+            data={bodyParts}
+            bodyPart={bodyPart}
+            setBodyPart={setBodyPart}
+            isBodyPart={true}
+          />
+        </Box>
+      )}
     </Stack>
   );
 }
