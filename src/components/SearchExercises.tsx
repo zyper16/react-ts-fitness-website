@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Stack, Typography, Box, TextField, Button } from "@mui/material";
+import Loader from "./Loader";
+import ErrorMessage from "./ErrorMessage";
 
 import { fetchData, fetchOptions } from "../utilities/fetchData";
 import HorizontalScrollBar from "./HorizontalScrollBar";
@@ -12,37 +14,53 @@ export default function SearchExercises({
 }: SearchExercisesProps) {
   const [searchValue, setSearchValue] = useState<string>("");
   const [bodyParts, setBodyParts] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [errorBodyParts, setBodyPartsError] = useState<null | string>(null);
+  const [errorSearch, setErrorSearch] = useState<null | string>(null);
 
   useEffect(() => {
     const fetchBodyParts = async () => {
-      const bodyPartsList = await fetchData(
-        "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
-        fetchOptions
-      );
-      setBodyParts(["all", ...bodyPartsList]);
+      try {
+        setIsLoading(true);
+        const bodyPartsList = await fetchData(
+          "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
+          fetchOptions
+        );
+        setBodyParts(["all", ...bodyPartsList]);
+      } catch (error) {
+        console.log(error);
+        setBodyPartsError(`Failed to load available body parts! ${error}`);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchBodyParts();
   }, []);
 
   const handleSearchExercises = async () => {
-    const exercisesData = await fetchData(
-      "https://exercisedb.p.rapidapi.com/exercises?limit=5000&offset=0",
-      fetchOptions
-    );
-    console.log(exercisesData);
+    try {
+      const exercisesData = await fetchData(
+        "https://exercisedb.p.rapidapi.com/exercises?limit=5000&offset=0",
+        fetchOptions
+      );
 
-    const searchedExercises = exercisesData.filter(
-      (exercise: ExerciseType) =>
-        exercise.name.toLowerCase().includes(searchValue) ||
-        exercise.target.toLowerCase().includes(searchValue) ||
-        exercise.equipment.toLowerCase().includes(searchValue) ||
-        exercise.bodyPart.toLowerCase().includes(searchValue)
-    );
-    window.scrollTo({ top: 1800, left: 100, behavior: "smooth" });
+      const searchedExercises = exercisesData.filter(
+        (exercise: ExerciseType) =>
+          exercise.name.toLowerCase().includes(searchValue) ||
+          exercise.target.toLowerCase().includes(searchValue) ||
+          exercise.equipment.toLowerCase().includes(searchValue) ||
+          exercise.bodyPart.toLowerCase().includes(searchValue)
+      );
+      window.scrollTo({ top: 1800, left: 100, behavior: "smooth" });
 
-    setSearchValue("");
-    setExercises(searchedExercises);
+      setExercises(searchedExercises);
+    } catch (error) {
+      console.log(error);
+      setErrorSearch(`Search has failed! (${error}) Please try again.`);
+    } finally {
+      setSearchValue("");
+    }
   };
 
   return (
@@ -81,18 +99,28 @@ export default function SearchExercises({
             fontSize: { lg: "20px", xs: "14px" },
           }}
           onClick={handleSearchExercises}
+          disabled={!searchValue.trim()}
         >
           Search
         </Button>
       </Box>
-      <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
-        <HorizontalScrollBar
-          data={bodyParts}
-          bodyPart={bodyPart}
-          setBodyPart={setBodyPart}
-          isBodyPart={true}
-        />
-      </Box>
+      <Typography>
+        {errorSearch && <ErrorMessage error={errorSearch} />}
+      </Typography>
+      {isLoading ? (
+        <Loader />
+      ) : errorBodyParts ? (
+        <ErrorMessage error={errorBodyParts} />
+      ) : (
+        <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
+          <HorizontalScrollBar
+            data={bodyParts}
+            bodyPart={bodyPart}
+            setBodyPart={setBodyPart}
+            isBodyPart={true}
+          />
+        </Box>
+      )}
     </Stack>
   );
 }
